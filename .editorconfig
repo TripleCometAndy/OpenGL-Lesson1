@@ -1,0 +1,16 @@
+[*]
+charset = utf-8
+indent_size = 4
+indent_style = space
+
+[*.{py,md,yml,sh,cmake}]
+indent_style = space
+indent_size = 4
+
+[*.{py,md,yml,sh,cmake}.in]
+indent_style = space
+indent_size = 4
+
+[CMakeLists.txt]
+indent_style = space
+indent_size = 4
