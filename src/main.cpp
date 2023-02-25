@@ -19,7 +19,7 @@ int main() {
     int width = windowSize.first;
     int height = windowSize.second;
 
-    GLFWwindow *window = gl::createWindow(width, height, "HELLO GLFW");
+    GLFWwindow *window = gl::createWindow(width, height, "HELLO GLFW 2");
 
     if (window == nullptr) {
         std::cout << "Failed to create GLFW window" << std::endl;
