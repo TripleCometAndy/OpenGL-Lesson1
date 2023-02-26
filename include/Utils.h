@@ -28,4 +28,7 @@ int getKey(GLFWwindow *window, int key);
 void setShouldWindowClose(GLFWwindow * window, bool shouldWindowClose);
 void setClearColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a);
 void clearColorBuffer();
+unsigned int getShaderProgram(const char *vertexShaderSource,
+                              const char *fragmentShaderSource);
+unsigned int getLinkedShaderProgram(unsigned int vertexShader, unsigned int fragmentShader);
 }

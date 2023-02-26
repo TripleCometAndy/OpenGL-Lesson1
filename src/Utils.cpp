@@ -24,7 +24,6 @@ void setGLFWUseCoreProfile() {
 }
 
 GLFWwindow *createWindow(double width, double height, std::string title) {
-
     GLFWwindow *window =
         glfwCreateWindow(width, height,
                          title.c_str(), NULL, NULL);
@@ -177,6 +176,65 @@ void setClearColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a) {
 void clearColorBuffer() {
     //Tell the OpenGL context to clear the color buffer
     glClear(GL_COLOR_BUFFER_BIT);
+}
+
+unsigned int getShaderProgram(const char *vertexShaderSource, const char * fragmentShaderSource) {
+    // build and compile our shader program
+    // ------------------------------------
+    // vertex shader
+    unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
+    glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
+    glCompileShader(vertexShader);
+    // check for shader compile errors
+    int success;
+    char infoLog[512];
+    glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
+    if (!success) {
+        glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
+        std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n"
+                  << infoLog << std::endl;
+    }
+    // fragment shader
+    unsigned int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+    glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
+    glCompileShader(fragmentShader);
+    // check for shader compile errors
+    glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
+    if (!success) {
+        glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
+        std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n"
+                  << infoLog << std::endl;
+    }
+
+    unsigned int shaderProgram = getLinkedShaderProgram(vertexShader, fragmentShader);
+
+    glDeleteShader(vertexShader);
+    glDeleteShader(fragmentShader);
+
+    return shaderProgram;
+}
+
+unsigned int getCompiledShader() {
+
+}
+
+unsigned int getLinkedShaderProgram(unsigned int vertexShader, unsigned int fragmentShader) {
+    // link shaders
+    unsigned int shaderProgram = glCreateProgram();
+    glAttachShader(shaderProgram, vertexShader);
+    glAttachShader(shaderProgram, fragmentShader);
+    glLinkProgram(shaderProgram);
+    // check for linking errors
+    int success;
+    char infoLog[512];
+    glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
+    if (!success) {
+        glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
+        std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n"
+                  << infoLog << std::endl;
+    }
+
+    return shaderProgram;
 }
 
 }
