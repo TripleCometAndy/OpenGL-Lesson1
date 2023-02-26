@@ -31,4 +31,8 @@ void clearColorBuffer();
 unsigned int getShaderProgram(const char *vertexShaderSource,
                               const char *fragmentShaderSource);
 unsigned int getLinkedShaderProgram(unsigned int vertexShader, unsigned int fragmentShader);
+unsigned int getCompiledShader(auto shaderType, const char * shaderSource);
+void deleteShader(unsigned int shader);
+std::string getShaderCompilationErrorMessage(unsigned int shader);
+std::string getShaderProgramLinkerErrorMessage(unsigned int shaderProgram);
 }

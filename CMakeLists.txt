@@ -9,11 +9,6 @@ include(FetchContent)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-#enable compiler warnings
-if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-    target_compile_options(GLPlayground PRIVATE -Wall -Wextra)
-endif()
-
 FetchContent_Declare(
 	glfw-stable
 	GIT_REPOSITORY https://github.com/TripleCometAndy/glfw-stable
