@@ -17,6 +17,14 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(glfw-stable)
 
+FetchContent_Declare(
+    glm
+    GIT_REPOSITORY https://github.com/g-truc/glm
+    GIT_TAG efec5db081e3aad807d0731e172ac597f6a39447
+)
+
+FetchContent_MakeAvailable(glm)
+
 add_executable(GLPlayground)
 
 target_include_directories(GLPlayground PRIVATE
@@ -24,6 +32,6 @@ target_include_directories(GLPlayground PRIVATE
     src
 )
 
-target_link_libraries(GLPlayground glfw)
+target_link_libraries(GLPlayground glfw glm)
 
 add_subdirectory(src)

@@ -3,6 +3,9 @@
 //We need to include glad before glfw
 #include <glad/glad.h> 
 #include <GLFW/glfw3.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 #include <string>
 
@@ -35,4 +38,7 @@ unsigned int getCompiledShader(auto shaderType, const char * shaderSource);
 void deleteShader(unsigned int shader);
 std::string getShaderCompilationErrorMessage(unsigned int shader);
 std::string getShaderProgramLinkerErrorMessage(unsigned int shaderProgram);
+glm::mat4 createTransformationMatrix();
+glm::mat4 translate(glm::mat4 transform, float x, float y, float z);
+glm::mat4 rotate(glm::mat4 transform, float angle, float axisX, float axisY, float axisZ);
 }

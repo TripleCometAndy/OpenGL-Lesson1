@@ -10,10 +10,15 @@
 const char *vertexShaderSource =
     "#version 330 core\n"
     "layout (location = 0) in vec3 aPos;\n"
+    "layout (location = 1) in vec2 aTexCoord;\n"
+    "out vec2 TexCoord;\n"
+    "uniform mat4 transform;\n"
     "void main()\n"
     "{\n"
-    "   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
+    "    gl_Position = transform * vec4(aPos, 1.0f);\n"
+    "    TexCoord = vec2(aTexCoord.x, aTexCoord.y);\n"
     "}\0";
+
 const char *fragmentShaderSource =
     "#version 330 core\n"
     "out vec4 FragColor;\n"
@@ -108,13 +113,20 @@ int main() {
     gl::setWindowResizeEvent(window);
 
 
-
     while (!gl::shouldWindowClose(window)) {
         gl::processInput(window);
         gl::setClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         gl::clearColorBuffer();
 
         glUseProgram(shaderProgram);
+
+        glm::mat4 transform = gl::createTransformationMatrix();
+        transform = gl::translate(transform, 0.3f, -0.3f, 0.0f);
+        transform = gl::rotate(transform, (float)glfwGetTime(), 0.0f, 0.0f, 1.0f);
+
+        unsigned int transformLoc = glGetUniformLocation(shaderProgram, "transform");
+        glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
+
         glBindVertexArray(VAO);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 

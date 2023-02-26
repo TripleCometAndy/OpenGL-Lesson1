@@ -250,5 +250,17 @@ void deleteShader(unsigned int shader) {
     glDeleteShader(shader);
 }
 
+glm::mat4 createTransformationMatrix() {
+    return glm::mat4(1.0f);
+}
+
+glm::mat4 translate(glm::mat4 transform, float x, float y, float z) {
+    return glm::translate(transform, glm::vec3(x, y, z));
+}
+
+glm::mat4 rotate(glm::mat4 transform, float angle, float axisX, float axisY, float axisZ) {
+    return glm::rotate(transform, angle, glm::vec3(axisX, axisY, axisZ));
+}
+
 }
 
