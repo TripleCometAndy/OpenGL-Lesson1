@@ -7,6 +7,8 @@
 #include "Utils.h"
 #include "IOException.h"
 
+#include <CollisionMap.h>
+
 const char *vertexShaderSource =
     "#version 330 core\n"
     "layout (location = 0) in vec3 aPos;\n"
@@ -75,10 +77,10 @@ int main() {
     };
 
     float vertices2[] = {
-        0.1f,  0.1f,  0.0f, // top right
-        0.1f,  -0.1f, 0.0f, // bottom right
-        -0.1f, -0.1f, 0.0f, // bottom left
-        -0.1f, 0.1f,  0.0f  // top left
+        0.7f,  0.7f,  0.0f, // top right
+        0.7f,  3.11f, 0.0f, // bottom right
+        -0.7f, 0.9f, 0.0f, // bottom left
+        0.7f, 0.9f,  0.0f  // top left
     };
     unsigned int indices2[] = {
         // note that we start from 0!
@@ -86,8 +88,11 @@ int main() {
         1, 2, 3  // second Triangle
     };
 
-    unsigned int VBO, VAO, EBO, VBO2, EBO2;
+    
+
+    unsigned int VBO, VAO, EBO, VBO2, EBO2, VAO2;
     glGenVertexArrays(1, &VAO);
+    glGenVertexArrays(1, &VAO2);
     glGenBuffers(1, &VBO);
     glGenBuffers(1, &EBO);
     glGenBuffers(1, &VBO2);
@@ -102,6 +107,13 @@ int main() {
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices,
                  GL_STATIC_DRAW);
+
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float),
+                          (void *)0);
+
+    glEnableVertexAttribArray(0);
+
+    glBindVertexArray(VAO2);
 
     glBindBuffer(GL_ARRAY_BUFFER, VBO2);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices2), vertices2, GL_STATIC_DRAW);
@@ -134,6 +146,9 @@ int main() {
 
     gl::setWindowResizeEvent(window);
 
+    cm::CollisionMap collisionMap;
+
+    collisionMap.makeSureItWorks();
 
     while (!gl::shouldWindowClose(window)) {
         gl::processInput(window);
@@ -150,6 +165,9 @@ int main() {
         glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
 
         glBindVertexArray(VAO);
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+
+        glBindVertexArray(VAO2);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
         gl::pollEvents();
